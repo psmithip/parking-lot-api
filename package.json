@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon",
     "lint": "eslint --fix --ext .ts,.js .",
+    "migrate": "npx knex migrate:latest",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -33,6 +34,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "helmet": "^6.0.1"
+    "helmet": "^6.0.1",
+    "knex": "^2.4.0",
+    "mysql": "^2.18.1"
   }
 }
