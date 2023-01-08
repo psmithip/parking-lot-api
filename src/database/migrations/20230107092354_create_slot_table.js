@@ -5,6 +5,7 @@
 exports.up = (knex) => {
   return knex.schema.createTable('slot', (table) => {
     table.increments('id').primary();
+    table.integer('parkingLotId').unsigned();
     table.foreign('parkingLotId').references('id').inTable('parkingLot');
     table.boolean('isAvailable').defaultTo(true);
     table.integer('position').notNullable();
@@ -21,5 +22,3 @@ exports.up = (knex) => {
 exports.down = (knex) => {
   return knex.schema.dropTable('slot');
 };
-
-const t = carSi
