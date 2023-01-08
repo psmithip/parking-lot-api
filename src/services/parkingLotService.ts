@@ -12,4 +12,22 @@ export namespace ParkingLotService {
 
     return await SlotRepo.bulkCreate(slotList);
   };
+
+  export const getParkingLotStatus = async (
+    parkingLotId: number
+  ): Promise<
+    {
+      parkingLotName: string;
+      slotId: number;
+      slotIsAvailable: boolean;
+      slotPosition: number;
+      ticketId: number | null;
+      ticketEntryAt: Date | null;
+      ticketExitAt: Date | null;
+      plateNumber: string | null;
+      carSize: string | null;
+    }[]
+  > => {
+    return ParkingLotRepo.getParkingLotDetailById(parkingLotId);
+  };
 }
