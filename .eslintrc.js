@@ -56,5 +56,6 @@ module.exports = {
     'import/newline-after-import': 'error',
     'unused-imports/no-unused-imports': 'error',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-namespace': 'off',
   },
 };
