@@ -10,3 +10,21 @@ services:
       MYSQL_USER: $DB_USER
       MYSQL_PASSWORD: $DB_PASSWORD
       MYSQL_ROOT_PASSWORD: $DB_PASSWORD
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '3001:3001'
+    environment:
+      NODE_ENV: $NODE_ENV
+      PORT: $PORT
+      DB_HOST: db
+      DB_NAME: $DB_NAME
+      DB_USER: $DB_USER
+      DB_PASSWORD: $DB_PASSWORD
+      DB_PORT: $DB_PORT
+    depends_on:
+      - db
+    command: sh -c "npm run migrate && npm run start"
