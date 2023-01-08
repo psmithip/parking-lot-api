@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 import bodyParser from 'body-parser';
 import { router } from './router';
+import { errorHandler } from './middleware/errorHandler';
 
 export const app: Application = express();
 
@@ -13,3 +14,4 @@ app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api', router);
+app.use(errorHandler);
