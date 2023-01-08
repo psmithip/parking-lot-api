@@ -25,4 +25,24 @@ export namespace TicketController {
       }
     }
   };
+
+  export const leaveSlot = async (req: Request, res: Response, next: NextFunction) => {
+    const ticketId: number = req.body.ticketId;
+
+    try {
+      await TicketService.leaveSlot(ticketId);
+      res.json({ message: 'success' });
+    } catch (error) {
+      if (error.statusCode) {
+        next(error);
+      } else {
+        next(
+          new CustomError({
+            message: `cannot leave slot | ticketId: ${ticketId}`,
+            statusCode: statusCodeEnum.BAD_REQUEST,
+          })
+        );
+      }
+    }
+  };
 }

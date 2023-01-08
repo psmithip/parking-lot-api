@@ -40,4 +40,31 @@ export namespace TicketService {
       throw error;
     }
   };
+
+  export const leaveSlot = async (ticketId: number): Promise<void> => {
+    const ticketInfo = await TicketRepo.getById(ticketId);
+
+    if (!ticketInfo) {
+      throw new CustomError({
+        message: `ticket is not found | ticketId: ${ticketId}`,
+        statusCode: statusCodeEnum.NOT_FOUND,
+      });
+    } else if (ticketInfo.exitAt) {
+      throw new CustomError({
+        message: `car is already left slot | ticketId: ${ticketId}`,
+        statusCode: statusCodeEnum.BAD_REQUEST,
+      });
+    }
+
+    const transaction: Knex.Transaction = await dbConn.transaction();
+
+    try {
+      await TicketRepo.updateById(ticketId, { exitAt: new Date() }, transaction);
+      await SlotRepo.updateById(ticketInfo.slotId, { isAvailable: true }, transaction);
+      await transaction.commit();
+    } catch (error) {
+      await transaction.rollback();
+      throw error;
+    }
+  };
 }

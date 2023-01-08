@@ -26,4 +26,12 @@ export namespace TicketRepo {
     const id = (await (transaction || dbConn).table(ticketTable).insert(data))[0];
     return id;
   };
+
+  export const updateById = async (
+    ticketId: number,
+    data: { entryAt?: Date; exitAt?: Date; plateNumber?: string; carSize?: keyof typeof carSizeEnum; slotId?: number },
+    transaction?: Knex.Transaction
+  ): Promise<void> => {
+    return (transaction || dbConn).table(ticketTable).where({ id: ticketId }).update(data);
+  };
 }
