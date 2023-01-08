@@ -4,6 +4,21 @@ import { carSizeEnum } from '../enums/carSizeEnum';
 
 export namespace TicketRepo {
   const ticketTable = 'ticket';
+  const slotTable = 'slot';
+
+  export const getRegistrationAllocatedData = async (
+    parkingLotId: number,
+    carSize: keyof typeof carSizeEnum
+  ): Promise<{ slotId: number; plateNumber: string }[]> => {
+    return dbConn
+      .table(ticketTable)
+      .column(`${slotTable}.id as slotId`, `${ticketTable}.plateNumber`)
+      .join(slotTable, `${slotTable}.id`, `${ticketTable}.slotId`)
+      .where(`${slotTable}.parkingLotId`, parkingLotId)
+      .where(`${ticketTable}.carSize`, carSize)
+      .whereNull(`${ticketTable}.exitAt`)
+      .where(`${slotTable}.isAvailable`, false);
+  };
 
   export const getById = async (
     ticketId: number,

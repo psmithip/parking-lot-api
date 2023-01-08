@@ -67,4 +67,18 @@ export namespace TicketService {
       throw error;
     }
   };
+
+  export const getRegistrationPlateNumber = async (
+    parkingLotId: number,
+    carSize: keyof typeof carSizeEnum
+  ): Promise<string[]> => {
+    return (await TicketRepo.getRegistrationAllocatedData(parkingLotId, carSize)).map((obj) => obj.plateNumber);
+  };
+
+  export const getRegistrationAllocatedSlot = async (
+    parkingLotId: number,
+    carSize: keyof typeof carSizeEnum
+  ): Promise<number[]> => {
+    return (await TicketRepo.getRegistrationAllocatedData(parkingLotId, carSize)).map((obj) => obj.slotId);
+  };
 }

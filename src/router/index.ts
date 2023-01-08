@@ -9,3 +9,5 @@ router.post('/parking-lot', ParkingLotController.createParkingLot);
 router.post('/park-car', TicketController.parkCar);
 router.post('/leave-slot', TicketController.leaveSlot);
 router.get('/parking-lot-status/:id', ParkingLotController.getParkingLotStatus);
+router.get('/registration-plate-number', TicketController.getRegistrationPlateNumber);
+router.get('/registration-allocated-slot', TicketController.getRegistrationAllocatedSlot);

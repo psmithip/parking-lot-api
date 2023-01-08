@@ -45,4 +45,46 @@ export namespace TicketController {
       }
     }
   };
+
+  export const getRegistrationPlateNumber = async (
+    req: Request<any, any, any, { parkingLotId: string; carSize: keyof typeof carSizeEnum }>,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const parkingLotId: number = parseInt(req.query.parkingLotId);
+    const carSize: keyof typeof carSizeEnum = req.query.carSize;
+
+    try {
+      const plateNumeberList = await TicketService.getRegistrationPlateNumber(parkingLotId, carSize);
+      res.json({ message: 'success', data: plateNumeberList });
+    } catch (error) {
+      next(
+        new CustomError({
+          message: `cannot get registration plate number | id: ${parkingLotId} | carSize: ${carSize}`,
+          statusCode: statusCodeEnum.BAD_REQUEST,
+        })
+      );
+    }
+  };
+
+  export const getRegistrationAllocatedSlot = async (
+    req: Request<any, any, any, { parkingLotId: string; carSize: keyof typeof carSizeEnum }>,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const parkingLotId: number = parseInt(req.query.parkingLotId);
+    const carSize: keyof typeof carSizeEnum = req.query.carSize;
+
+    try {
+      const allocatedSlotIdList = await TicketService.getRegistrationAllocatedSlot(parkingLotId, carSize);
+      res.json({ message: 'success', data: allocatedSlotIdList });
+    } catch (error) {
+      next(
+        new CustomError({
+          message: `cannot get registration allocated slot | id: ${parkingLotId} | carSize: ${carSize}`,
+          statusCode: statusCodeEnum.BAD_REQUEST,
+        })
+      );
+    }
+  };
 }
