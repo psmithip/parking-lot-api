@@ -12,7 +12,7 @@ module.exports = {
     'plugin:import/typescript',
     'prettier',
   ],
-  ignorePatterns: ['dist/', 'node_modules/', 'knexfile.js', 'src/database/migrations/'],
+  ignorePatterns: ['dist/', 'node_modules/', 'knexfile.js', 'src/database/migrations/', '.eslintrc.js'],
   parser: '@typescript-eslint/parser',
   settings: {
     'import/parsers': {
@@ -57,5 +57,6 @@ module.exports = {
     'unused-imports/no-unused-imports': 'error',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-namespace': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
   },
 };

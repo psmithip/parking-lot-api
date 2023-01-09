@@ -39,7 +39,10 @@ export namespace ParkingLotRepo {
         `${ticketTable}.carSize`
       )
       .join(slotTable, `${parkingLotTable}.id`, `${slotTable}.parkingLotId`)
-      .leftJoin(ticketTable, `${slotTable}.id`, `${ticketTable}.slotId`)
+      .leftJoin(ticketTable, function join() {
+        this.on(`${slotTable}.id`, '=', `${ticketTable}.slotId`);
+        this.andOnNull(`${ticketTable}.exitAt`);
+      })
       .where(`${parkingLotTable}.id`, parkingLotId);
   };
 }

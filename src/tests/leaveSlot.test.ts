@@ -1,9 +1,12 @@
 import request from 'supertest';
 import { app } from '../app';
+import { dbConn } from '../database';
 import { carSizeEnum } from '../enums/carSizeEnum';
 import { clearDataInTestTable } from '../utils/database';
 
 let ticketId: number;
+const ticketTable = 'ticket';
+const slotTable = 'slot';
 
 describe('POST /api/leave-slot', () => {
   beforeAll(async () => {
@@ -24,9 +27,14 @@ describe('POST /api/leave-slot', () => {
     ticketId = resTicket.body.data.id;
   });
 
-  test('should return 200 with success message', async () => {
+  test('should return 200 with expected data', async () => {
     const response = await request(app).post('/api/leave-slot').send({ ticketId }).expect(200);
     expect(response.body).toHaveProperty('message', 'success');
+
+    const ticketInfo = await dbConn.table(ticketTable).where({ id: ticketId }).first();
+    expect(ticketInfo.exitAt).not.toEqual(null);
+    const slotInfo = await dbConn.table(slotTable).where({ id: ticketInfo.slotId }).first();
+    expect(slotInfo.isAvailable).toEqual(true);
   });
 
   test('should return 400 if car is already left slot', async () => {

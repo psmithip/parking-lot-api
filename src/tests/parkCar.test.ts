@@ -35,6 +35,9 @@ describe('POST /api/park-car', () => {
     expect(resTicket.body.data).toHaveProperty('plateNumber', plateNumber);
     expect(resTicket.body.data).toHaveProperty('carSize', carSizeEnum.MEDIUM);
 
+    const slotInfo = await dbConn.table(slotTable).where({ id: resTicket.body.data.slotId }).first();
+    expect(slotInfo.isAvailable).toEqual(false);
+
     await request(app).post('/api/leave-slot').send({ ticketId: resTicket.body.data.id });
   });
 
