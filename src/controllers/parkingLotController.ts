@@ -9,8 +9,8 @@ export namespace ParkingLotController {
     const totalSlots: number = req.body.totalSlots;
 
     try {
-      await ParkingLotService.createParkingLot(name, totalSlots);
-      res.json({ message: 'success' });
+      const parkingLotId = await ParkingLotService.createParkingLot(name, totalSlots);
+      res.json({ message: 'success', data: { parkingLotId } });
     } catch (error) {
       next(new CustomError({ message: 'cannot create a new parking lot', statusCode: statusCodeEnum.BAD_REQUEST }));
     }

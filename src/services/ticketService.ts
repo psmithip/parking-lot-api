@@ -22,7 +22,7 @@ export namespace TicketService {
 
     if (!slotId) {
       throw new CustomError({
-        message: `cannot find available slot | parkingLotId: ${parkingLotId}`,
+        message: `cannot find available slot | parkingLotId: ${parkingLotId}, plateNumber: ${carInfo.plateNumber}, carSize: ${carInfo.carSize}`,
         statusCode: statusCodeEnum.NOT_FOUND,
       });
     }

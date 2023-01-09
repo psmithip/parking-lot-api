@@ -2,7 +2,7 @@ import { ParkingLotRepo } from '../repositories/parkingLotRepo';
 import { SlotRepo } from '../repositories/slotRepo';
 
 export namespace ParkingLotService {
-  export const createParkingLot = async (name: string, totalSlots: number): Promise<void> => {
+  export const createParkingLot = async (name: string, totalSlots: number): Promise<number> => {
     const parkingLotId: number = await ParkingLotRepo.create(name);
     const slotList: { parkingLotId: number; position: number }[] = [];
 
@@ -10,7 +10,8 @@ export namespace ParkingLotService {
       slotList.push({ parkingLotId, position });
     }
 
-    return await SlotRepo.bulkCreate(slotList);
+    await SlotRepo.bulkCreate(slotList);
+    return parkingLotId;
   };
 
   export const getParkingLotStatus = async (

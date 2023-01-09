@@ -18,7 +18,7 @@ export namespace TicketController {
       } else {
         next(
           new CustomError({
-            message: `cannot park car | parkingLotId: ${parkingLotId}`,
+            message: `cannot park car | parkingLotId: ${parkingLotId}, plateNumber: ${carInfo.plateNumber}, carSize: ${carInfo.carSize}`,
             statusCode: statusCodeEnum.BAD_REQUEST,
           })
         );
